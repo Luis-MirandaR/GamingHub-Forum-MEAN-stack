@@ -16,11 +16,15 @@ import Swal from 'sweetalert2';
 })
 export class ForwardedThreadsComponent {
   forwardedThreads: any[] = [];
+  games: any[] = [];
+  categories: any[] = [];
   apiUrl = 'http://localhost:3000/api';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   ngOnInit() {
+    this.http.get<any[]>(`${this.apiUrl}/games`).subscribe(data => this.games = data);
+    this.http.get<any[]>(`${this.apiUrl}/categories`).subscribe(data => this.categories = data);
     const token = localStorage.getItem('token');
     this.http.get<any[]>(`${this.apiUrl}/forwardedthreads/user`, {
       headers: { Authorization: `Bearer ${token}` }
@@ -28,5 +32,15 @@ export class ForwardedThreadsComponent {
       next: (data) => this.forwardedThreads = data,
       error: () => this.forwardedThreads = []
     });
+  }
+
+  getGameName(id: string): string {
+    const game = this.games.find(g => g._id === id);
+    return game ? game.name : id;
+  }
+
+  getCategoryName(id: string): string {
+    const cat = this.categories.find(c => c._id === id);
+    return cat ? cat.category : id;
   }
 }

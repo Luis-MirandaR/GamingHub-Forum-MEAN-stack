@@ -2,18 +2,27 @@
   <app-sidebar></app-sidebar>
   <div class="flex-1 p-8">
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-      <div *ngFor="let item of forwardedThreads" class="bg-white dark:bg-zinc-900 rounded shadow p-4 flex flex-col items-center">
+      <div *ngFor="let item of forwardedThreads"
+        class="bg-white dark:bg-zinc-900 rounded shadow p-4 flex flex-col items-center">
         <ng-container *ngIf="item.threadId?.imagenUrl; else placeholder">
           <img [src]="item.threadId.imagenUrl" alt="{{ item.threadId.titulo }}"
             class="h-40 w-full object-cover rounded mb-4 border-2 border-purple-300" />
         </ng-container>
         <ng-template #placeholder>
-          <div class="h-40 w-full mb-4 rounded border-2 border-purple-300 bg-gray-100 dark:bg-zinc-800 flex items-center justify-center"></div>
+          <div
+            class="h-40 w-full mb-4 rounded border-2 border-purple-300 bg-gray-100 dark:bg-zinc-800 flex items-center justify-center">
+          </div>
         </ng-template>
         <h3 class="text-lg font-bold text-purple-700 mb-2 text-center cursor-pointer hover:underline"
-            [routerLink]="['/thread', item.threadId._id]">
+          [routerLink]="['/thread', item.threadId._id]">
           {{ item.threadId.titulo }}
         </h3>
+        <p class="text-xs text-gray-600 text-center">
+          <strong>Juego:</strong> {{ getGameName(item.threadId.juego) }}
+        </p>
+        <p class="text-xs text-gray-600 text-center">
+          <strong>Categoría:</strong> {{ getCategoryName(item.threadId.category) }}
+        </p>
         <p class="text-gray-500 text-sm text-center">
           {{ item.threadId.fechaCreacion | date:'medium' }}
         </p>

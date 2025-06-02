@@ -19,6 +19,12 @@
           [routerLink]="['/thread', thread._id]">
           {{ thread.titulo }}
         </h3>
+        <p class="text-xs text-gray-600 text-center">
+          <strong>Juego:</strong> {{ getGameName(thread.juego) }}
+        </p>
+        <p class="text-xs text-gray-600 text-center">
+          <strong>Categoría:</strong> {{ getCategoryName(thread.category) }}
+        </p>
         <p class="text-gray-500 text-sm text-center">
           {{ thread.fechaCreacion | date:'medium' }}
         </p>

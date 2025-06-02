@@ -19,25 +19,36 @@ export class MyThreadsComponent implements OnInit {
   categories: any[] = [];
   apiUrl = 'http://localhost:3000/api';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   ngOnInit() {
+    this.http.get<any[]>(`${this.apiUrl}/games`).subscribe(data => this.games = data);
+    this.http.get<any[]>(`${this.apiUrl}/categories`).subscribe(data => this.categories = data);
     this.loadGames();
     this.loadCategories();
     this.loadMyThreads();
   }
 
-  
-  loadMyThreads() {
-  const token = localStorage.getItem('token');
-  this.http.get<any[]>(`${this.apiUrl}/mythreads`, {
-    headers: { Authorization: `Bearer ${token}` }
-  }).subscribe({
-    next: (data) => this.myThreads = data,
-    error: () => this.myThreads = []
-  });
+  getGameName(id: string): string {
+    const game = this.games.find(g => g._id === id);
+    return game ? game.name : id;
   }
-  
+
+  getCategoryName(id: string): string {
+    const cat = this.categories.find(c => c._id === id);
+    return cat ? cat.category : id;
+  }
+
+  loadMyThreads() {
+    const token = localStorage.getItem('token');
+    this.http.get<any[]>(`${this.apiUrl}/mythreads`, {
+      headers: { Authorization: `Bearer ${token}` }
+    }).subscribe({
+      next: (data) => this.myThreads = data,
+      error: () => this.myThreads = []
+    });
+  }
+
   loadGames() {
     this.http.get<any[]>(`${this.apiUrl}/games`).subscribe({
       next: (data) => this.games = data,
@@ -70,11 +81,11 @@ export class MyThreadsComponent implements OnInit {
       title: 'Crear nuevo hilo',
       html:
         `<div style="display:flex;flex-direction:column;align-items:center;">` +
-          `<input id="swal-titulo" class="swal2-input" placeholder="Título del hilo" style="width:300px;" />` +
-          `<textarea id="swal-texto" class="swal2-textarea" placeholder="Contenido del hilo" style="resize: none; width:300px;"></textarea>` +
-          `<input id="swal-imagen" class="swal2-input" placeholder="URL de la imagen (opcional)" style="width:300px;" />` +
-          `<select id="swal-juego" class="swal2-input mb-2" style="width:300px;">${gameOptions}</select>` +
-          `<select id="swal-categorias" class="swal2-input" style="width:300px;">${categoryOptions}</select>` +
+        `<input id="swal-titulo" class="swal2-input" placeholder="Título del hilo" style="width:300px;" />` +
+        `<textarea id="swal-texto" class="swal2-textarea" placeholder="Contenido del hilo" style="resize: none; width:300px;"></textarea>` +
+        `<input id="swal-imagen" class="swal2-input" placeholder="URL de la imagen (opcional)" style="width:300px;" />` +
+        `<select id="swal-juego" class="swal2-input mb-2" style="width:300px;">${gameOptions}</select>` +
+        `<select id="swal-categorias" class="swal2-input" style="width:300px;">${categoryOptions}</select>` +
         `</div>`,
       focusConfirm: false,
       width: 600,
