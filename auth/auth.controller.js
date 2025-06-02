@@ -1,4 +1,4 @@
-const User = require('./auth.dao');
+const User = require('./auth.model');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const SECRET_KEY = 'secretkey123'
@@ -54,5 +54,71 @@ exports.loginUser = async (req, res, next) => {
         }
     } catch (err) {
         return res.status(500).send('Server error');
+    }
+};
+
+exports.getCurrentUser = async (req, res) => {
+    try {
+        const user = await User.findById(req.user.id).select('-password');
+        if (!user) {
+            return res.status(404).send({ message: 'Usuario no encontrado' });
+        }
+        res.send({
+            id: user.id,
+            username: user.username,
+            email: user.email,
+            imageUrl: user.imageUrl,
+            role: user.role
+        });
+    } catch (err) {
+        res.status(500).send({ message: 'Error al obtener el usuario' });
+    }
+};
+
+exports.updateCurrentUser = async (req, res) => {
+    try {
+        const updates = {
+            username: req.body.username,
+            imageUrl: req.body.imageUrl
+        };
+        const user = await User.findByIdAndUpdate(
+            req.user.id,
+            { $set: updates },
+            { new: true, runValidators: true }
+        ).select('-password');
+        if (!user) {
+            return res.status(404).send({ message: 'Usuario no encontrado' });
+        }
+        res.send({
+            id: user.id,
+            username: user.username,
+            email: user.email,
+            imageUrl: user.imageUrl
+        });
+    } catch (err) {
+        res.status(500).send({ message: 'Error al actualizar el usuario' });
+    }
+};
+
+exports.changePassword = async (req, res) => {
+    try {
+        const user = await User.findById(req.user.id);
+        if (!user) {
+            return res.status(404).send({ message: 'Usuario no encontrado' });
+        }
+
+        // Verifica la contraseña actual
+        const passwordIsValid = bcrypt.compareSync(req.body.currentPassword, user.password);
+        if (!passwordIsValid) {
+            return res.status(400).send({ message: 'La contraseña actual es incorrecta' });
+        }
+
+        // Cambia la contraseña
+        user.password = bcrypt.hashSync(req.body.newPassword, 8);
+        await user.save();
+
+        res.send({ message: 'Contraseña actualizada correctamente' });
+    } catch (err) {
+        res.status(500).send({ message: 'Error al cambiar la contraseña' });
     }
 };

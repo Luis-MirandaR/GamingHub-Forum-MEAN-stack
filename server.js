@@ -11,6 +11,9 @@ const categoryRoutes = require('./categories/category.routes');
 const gameRoutes = require('./games/game.routes');
 const authRoutes = require('./auth/auth.routes');
 const threadRoutes = require('./threads/thread.routes');
+const commentRoutes = require('./comments/comment.routes');
+const forwardedthreads = require('./forwardedthreads/forwardedthreads.routes');
+
 
 const app = express();
 const router = express.Router();
@@ -30,6 +33,9 @@ authRoutes(router);
 categoryRoutes(router);
 gameRoutes(router);
 threadRoutes(router);
+commentRoutes(router);
+forwardedthreads(router);
+
 
 router.get('/', (req, res) => {
   res.send('Welcome to the API');

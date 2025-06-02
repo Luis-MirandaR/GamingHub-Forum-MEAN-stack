@@ -31,6 +31,9 @@ export class LoginComponent {
       this.authService.login(email, password).subscribe({
         next: (res) => {
           localStorage.setItem('token', res.accessToken);
+          localStorage.setItem('userId', res.user._id);
+          localStorage.setItem('role', res.user.role);
+          console.log(res);
           // Redirige a la página principal o dashboard
           this.router.navigate(['/dashboard']);
         },

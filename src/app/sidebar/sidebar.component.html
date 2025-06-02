@@ -1,0 +1,90 @@
+<nav
+  class="h-screen w-64 bg-purple-700 dark:bg-purple-900 border-e border-purple-800 dark:border-purple-950 flex flex-col justify-between">
+  <!-- Logo y opciones -->
+  <div>
+    <div class="flex items-center justify-center h-20 border-b border-purple-800 dark:border-purple-950">
+      <img src="https://www.svgrepo.com/show/499595/controller.svg" alt="Logo" class="h-12 w-auto" />
+    </div>
+    <!-- Opciones -->
+    <ul class="px-4 py-6 space-y-2">
+      <li>
+        <a routerLink="/dashboard" routerLinkActive="font-bold text-white bg-purple-800"
+          class="flex items-center gap-2 px-2 py-2 rounded hover:bg-purple-600 dark:hover:bg-purple-800 !text-white transition">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-purple-200" fill="none" viewBox="0 0 24 24"
+            stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M3 12l2-2m0 0l7-7 7 7m-9 2v8m4-8v8m5 0h2a2 2 0 002-2v-7a2 2 0 00-.586-1.414l-8-8a2 2 0 00-2.828 0l-8 8A2 2 0 003 10v7a2 2 0 002 2h2" />
+          </svg>
+          Inicio
+        </a>
+      </li>
+      <li>
+        <a routerLink="/mythreads" routerLinkActive="font-bold text-white bg-purple-800"
+          class="flex items-center gap-2 px-2 py-2 rounded hover:bg-purple-600 dark:hover:bg-purple-800 !text-white transition">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-purple-200" fill="none" viewBox="0 0 24 24"
+            stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M17 8h2a2 2 0 012 2v8a2 2 0 01-2 2H7a2 2 0 01-2-2v-2m12-6V6a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2h2" />
+          </svg>
+          Mis Hilos
+        </a>
+      </li>
+      <li>
+        <a [routerLink]="['/forwarded-threads']" routerLinkActive="font-bold text-white bg-purple-800"
+          class="flex items-center gap-2 px-2 py-2 rounded hover:bg-purple-600 dark:hover:bg-purple-800 !text-white transition">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-purple-200" fill="none" viewBox="0 0 24 24"
+            stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V4a2 2 0 10-4 0v1.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+          </svg>
+          Hilos que sigo
+        </a>
+      </li>
+      <li *ngIf="role === 'admin'">
+        <a routerLink="/games" routerLinkActive="font-bold text-white bg-purple-800"
+          class="flex items-center gap-2 px-2 py-2 rounded hover:bg-purple-600 dark:hover:bg-purple-800 !text-white transition">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-purple-200" fill="none" viewBox="0 0 24 24"
+            stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M9.75 17l-1.5-1.5m0 0l-1.5-1.5m1.5 1.5l1.5-1.5m-1.5 1.5l-1.5 1.5M15 12a3 3 0 11-6 0 3 3 0 016 0zm6 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          Juegos
+        </a>
+      </li>
+      <li *ngIf="role === 'admin'">
+        <a routerLink="/categories" routerLinkActive="font-bold text-white bg-purple-800"
+          class="flex items-center gap-2 px-2 py-2 rounded hover:bg-purple-600 dark:hover:bg-purple-800 !text-white transition">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-purple-200" fill="none" viewBox="0 0 24 24"
+            stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16" />
+          </svg>
+          Categorías
+        </a>
+      </li>
+    </ul>
+  </div>
+  <!-- Card de usuario -->
+  <div class="p-4">
+    <div class="bg-purple-800 dark:bg-purple-950 rounded-xl shadow flex flex-col items-center p-4">
+      <div class="w-full flex justify-start mb-2">
+        <a [routerLink]="['/settings/profile']" class="hover:bg-purple-700 rounded-full p-1 transition" title="Editar perfil">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-purple-200 hover:text-white" fill="none"
+            viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M11 17a4 4 0 104-4 4 4 0 00-4 4zm6.93-2.36a2 2 0 00.14-2.82l-1.42-1.42a2 2 0 00-2.82.14l-.71.71a8.12 8.12 0 01-2.83-2.83l.71-.71a2 2 0 00.14-2.82l-1.42-1.42a2 2 0 00-2.82.14l-.71.71A2 2 0 004 7.07V9a2 2 0 002 2h1a8.12 8.12 0 012.83 2.83l-.71.71a2 2 0 00-.14 2.82l1.42 1.42a2 2 0 002.82-.14l.71-.71A8.12 8.12 0 0117 15h1a2 2 0 002-2v-1a2 2 0 00-2-2h-1a8.12 8.12 0 01-2.83-2.83l.71-.71z" />
+          </svg>
+        </a>
+      </div>
+      <div class="bg-purple-600 rounded-full p-1 mb-2">
+        <img [src]="profileImage" alt="Perfil"
+          class="h-16 w-16 rounded-full object-cover border-4 border-white dark:border-purple-900" />
+      </div>
+      <div class="text-center">
+        <div class="font-semibold text-white text-lg">{{ username }}</div>
+        <button (click)="logout()" class="mt-2 bg-pink-600 text-white px-4 py-1 rounded hover:bg-pink-700 transition">
+          Cerrar sesión
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>

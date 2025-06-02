@@ -1,9 +1,17 @@
 <div class="flex">
   <app-sidebar></app-sidebar>
   <div class="flex-1 p-8">
+    <div class="flex justify-end mb-6">
+      <button
+        class="bg-purple-700 text-white px-4 py-2 rounded hover:bg-purple-800"
+        (click)="openCreateThreadModal()"
+      >
+        Crear hilo
+      </button>
+    </div>
     <!-- Cards de threads -->
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-8">
-      <div *ngFor="let thread of threads"
+      <div *ngFor="let thread of myThreads"
         class="bg-white dark:bg-zinc-900 rounded shadow p-4 flex flex-col items-center">
         <ng-container *ngIf="thread.imagenUrl; else placeholder">
           <img [src]="thread.imagenUrl" alt="{{ thread.titulo }}"
@@ -23,7 +31,7 @@
           {{ thread.fechaCreacion | date:'medium' }}
         </p>
       </div>
-      <div *ngIf="!threads || threads.length === 0" class="col-span-full text-center text-gray-500">
+      <div *ngIf="!myThreads || myThreads.length === 0" class="col-span-full text-center text-gray-500">
         No hay hilos registrados.
       </div>
     </div>

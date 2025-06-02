@@ -1,0 +1,59 @@
+<div class="flex">
+    <app-sidebar></app-sidebar>
+    <div class="flex-1 p-8">
+        <div *ngIf="thread" class="w-full max-w-4xl mx-auto px-8 py-4 pb-24 bg-white rounded shadow relative">
+            <h2 class="text-2xl font-bold mb-4">{{ thread.titulo }}</h2>
+            <img *ngIf="thread.imagenUrl" [src]="thread.imagenUrl" class="w-full max-h-56 object-cover rounded mb-4" />
+            <div class="flex flex-wrap gap-8 mb-2">
+                <p><strong>Juego:</strong> {{ getGameName(thread.juego) }}</p>
+                <p><strong>Categoría:</strong> {{ getCategoryName(thread.category) }}</p>
+                <p><strong>Fecha:</strong> {{ thread.fechaCreacion }}</p>
+            </div>
+            <hr class="my-2" />
+            <p>{{ thread.texto }}</p>
+
+            <!-- Módulo de comentarios -->
+            <div class="mt-8">
+                <h4 class="font-semibold mb-2">Comentarios</h4>
+                <div *ngFor="let comentario of comentarios"
+                    class="mb-4 p-3 bg-gray-100 rounded flex justify-between items-start">
+                    <div>
+                        <div class="text-sm text-gray-700 mb-1">
+                            <strong>{{ comentario.userId?.username || 'Usuario' }}</strong>
+                            <span class="text-xs text-gray-400">{{ comentario.fechaCreacion | date:'short' }}</span>
+                        </div>
+                        <div>{{ comentario.text }}</div>
+                    </div>
+                    <button *ngIf="comentario.userId?._id === userId" (click)="borrarComentario(comentario._id)"
+                        class="ml-4 text-red-600 hover:text-red-800 font-bold" title="Borrar comentario">
+                        ×
+                    </button>
+                </div>
+
+                <form (ngSubmit)="enviarComentario()" #comentarioForm="ngForm" class="flex gap-2 mt-4">
+                    <input type="text" [(ngModel)]="nuevoComentario" name="comentario" required
+                        placeholder="Escribe un comentario..." class="flex-1 border rounded px-3 py-2" />
+                    <button type="submit" [disabled]="!nuevoComentario"
+                        class="bg-purple-700 text-white px-4 py-2 rounded hover:bg-purple-800 transition">
+                        Enviar
+                    </button>
+                </form>
+            </div>
+
+
+            <button *ngIf="(thread.userId === userId || thread.userId?._id === userId) || userRole === 'admin'"
+                class="absolute left-4 bottom-4 bg-red-600 text-white px-6 py-2 rounded shadow hover:bg-red-700 transition"
+                (click)="borrarHilo(thread)">
+                Borrar hilo
+            </button>
+
+            <!-- Botón de suscribirse -->
+            <button
+                class="absolute right-4 bottom-4 bg-purple-700 text-white px-6 py-2 rounded shadow hover:bg-purple-800 transition"
+                (click)="toggleSuscripcion(thread)">
+                {{ isSubscribed ? 'Desuscribirse' : 'Suscribirse' }}
+            </button>
+        </div>
+        <div *ngIf="!thread" class="text-center text-gray-500">Hilo no encontrado.</div>
+    </div>
+</div>
