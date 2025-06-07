@@ -1,4 +1,6 @@
-# ProyectoFinal
+# ProyectoFinal - GamingHub
+
+This project was created for educational purposes. It was developed using the MEAN stack (MongoDB, Express, Angular, NodeJS). It features a forum where users can register and interact with others through posts. TailwindCSS was used for design purposes.
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.1.4.
 
